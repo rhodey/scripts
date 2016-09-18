@@ -1,0 +1,20 @@
+#!/bin/bash
+
+rm -f ~/.profile
+rm -f ~/.bash_login
+
+unlink ~/.bash_profile
+unlink ~/.bashrc
+unlink ~/.bash_aliases
+unlink ~/.bash_exports
+
+if [ ! -f ~/scripts/bash_exports ]; then
+  echo 'export PATH=$PATH:~/scripts' >> ~/scripts/bash_exports
+fi
+
+ln -s ~/scripts/bash_profile ~/.bash_profile
+ln -s ~/scripts/bashrc ~/.bashrc
+ln -s ~/scripts/bash_exports ~/.bash_exports
+ln -s ~/scripts/bash_aliases ~/.bash_aliases
+
+source ~/.bash_profile

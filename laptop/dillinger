@@ -1,0 +1,74 @@
+#!/bin/bash
+DILL_DIR=/home/rhodey/software/dillinger-3.5.1
+DILL_PORT=4444
+PID=""
+
+
+function get_pid {
+   PID=`pidof node app`
+}
+
+function stop {
+   get_pid
+   if [ -z $PID ]; then
+      echo "daemon is not running."
+      exit 1
+   else
+      kill -9 $PID
+   fi
+}
+
+function start {
+   get_pid
+   if [ -z $PID ]; then
+      node app >> /tmp/dillinger 2>&1 &
+      get_pid
+   else
+      echo "daemon is already running, pid -> $PID"
+   fi
+}
+
+function restart {
+   get_pid
+   if [ -z $PID ]; then
+      start
+   else
+      stop
+      sleep 5
+      start
+   fi
+}
+
+function status {
+   get_pid
+   if [ -z  $PID ]; then
+      echo "deamon is not running."
+      exit 1
+   else
+      echo "daemon is running, pid -> $PID"
+   fi
+}
+
+
+ORIGIN=`pwd`
+export PORT=$DILL_PORT
+cd $DILL_DIR
+
+case "$1" in
+   start)
+      start
+   ;;
+   stop)
+      stop
+   ;;
+   restart)
+      restart
+   ;;
+   status)
+      status
+   ;;
+   *)
+      echo "usage: $0 {start|stop|restart|status}"
+esac
+
+cd $ORIGIN

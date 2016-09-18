@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ "$1" ]; then
+  sudo useradd --shell /bin/bash --create-home $1
+  sudo su $1 --login -c "git clone https://github.com/rhodey/scripts /home/$1/scripts"
+  sudo su $1 --login -c "/home/$1/scripts/init-bash"
+else
+  echo "no username supplied"
+  exit 1
+fi

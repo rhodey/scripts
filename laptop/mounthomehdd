@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sudo mount -o rw,hard,intr,rsize=32768,wsize=32768 homehdd:/nfs/media /mnt/nfs-home

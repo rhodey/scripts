@@ -1,0 +1,6 @@
+#!/bin/bash
+CMD="sudo su nginx --login -c 'pull-rhodey.org' &&
+sudo service nginx reload"
+
+
+ssh -t rhodey.org "$CMD"
